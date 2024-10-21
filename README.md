@@ -16,5 +16,9 @@ This script extracts base64-encoded img.webp data from FaceCheck search results.
 ## Why Does This Work?
 
 FaceCheck.id embeds search result images as a string of a base64-encoded webp file. These images often contain embedded metadata in the form of XMP (Extensible Metadata Platform) data, which is typically included in image files to store information such as copyright details, camera settings, or links related to the image.
-In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got it's images from, like social media profiles or other web pages related to the search result. The critical point here is that FaceCheck.id does not strip or remove this XMP metadata before embedding the webp images on their results page. As a result, the metadata, including the URLs, remains intact within the image data, allowing it to be accessed and decoded without needing to pay for the results.
+
+In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got it's images from, like social media profiles or other web pages related to the search result. 
+
+The critical point here is that FaceCheck.id does not strip or remove this XMP metadata before embedding the webp images on their results page. As a result, the metadata, including the URLs, remains intact within the image data, allowing it to be accessed and decoded without needing to pay for the results.
+
 I have tried finding their contact info to let them know about this, but they didn't leave their info on their website, or pretty much anywhere else. So I thought I'd share this for casual users to use (while it still works).
