@@ -45,8 +45,24 @@
 
     // Function to check if the current page is a results page
     function isResultsPage() {
-        return window.location.href.match(/https:\/\/facecheck\.id\/#.+/);
+        const url = window.location.href;
+
+        // Step 1: Check for URL without language code
+        const noLangCodeMatch = url.match(/https:\/\/facecheck\.id\/?\#.+/);
+        if (noLangCodeMatch) {
+            return true; // URL matches without a language code
+        }
+
+        // Step 2: Check for URL with language code (2-letter)
+        const langCodeMatch = url.match(/https:\/\/facecheck\.id\/[a-z]{2}\#.+/);
+        if (langCodeMatch) {
+            return true; // URL matches with a 2-letter language code
+        }
+
+        // If neither condition matches, return false
+        return false;
     }
+
 
     // Function to ask user input once the results page is detected
     function askForNumberOfUrls() {
