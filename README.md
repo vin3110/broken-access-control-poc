@@ -1,6 +1,6 @@
 # facecheck.id-results-extractor
 A Tampermonkey script to extract URLs from FaceCheck.id results for free.
-This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected, it asks the user how many URLs to extract (up to 50) and displays them in a popup.
+This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected, it asks the user how many URLs to extract (up to 50) and displays the results in a box in the upper-left corner of the webpage.
 
 ## How to Install
 1. Install Tampermonkey in your browser (available for Chrome, Firefox, and others).
@@ -13,6 +13,7 @@ This script extracts base64-encoded img.webp data from FaceCheck search results.
 2. Enable the script and use the FaceCheck.id search.
 3. A popup will ask how many URLs you'd like to extract (between 1 and 50).
 4. The script will extract and display the URLs found in a black box in the upper-left corner of the webpage.
+![alt text](https://github.com/vin3110/facecheck.id-results-extractor/results-example.png)
 
 ## What is FaceCheck.id?
 
