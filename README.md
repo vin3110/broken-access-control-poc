@@ -13,7 +13,7 @@ This script extracts base64-encoded img.webp data from FaceCheck search results.
 2. Enable the script and use the FaceCheck.id search.
 3. A popup will ask how many URLs you'd like to extract (between 1 and 50).
 4. The script will extract and display the URLs found in a black box in the upper-left corner of the webpage.
-![alt text](https://github.com/vin3110/facecheck.id-results-extractor/results-example.png)
+![alt text](https://github.com/vin3110/facecheck.id-results-extractor/blob/main/results-example.png)
 
 ## What is FaceCheck.id?
 
