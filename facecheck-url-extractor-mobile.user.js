@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         FaceCheck URL Extractor
+// @name         FaceCheck URL Extractor on mobile
 // @namespace    http://tampermonkey.net/
 // @version      1.7.0
 // @description  Extracts image URLs from FaceCheck results
