@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         FaceCheck URL Extractor (Collapsible)
+// @name         FaceCheck URL Extractor mobile
 // @namespace    http://tampermonkey.net/
 // @version      1.8.0
-// @description  Extracts image URLs from FaceCheck results with collapsible list
+// @description  Extracts image URLs from FaceCheck for mobile phones
 // @author       vin31_ modifed by Nthompson096 with perplexity.ai
 // @match        https://facecheck.id/*
 // @grant        none
