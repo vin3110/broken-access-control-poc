@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.7.0
 // @description  Extracts image URLs from FaceCheck results on mobile devices
-// @author       vin31_ modified by Nthompson096
+// @author       vin31_ modified by Nthompson096 used perplexity
 // @match        https://facecheck.id/*
 // @grant        none
 // ==/UserScript==
