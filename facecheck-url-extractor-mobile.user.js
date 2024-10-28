@@ -23,7 +23,6 @@
                 innerHTML: `
                     <h2 style="color:#FFF;margin:0 0 10px;cursor:pointer" id="resultsToggle">▼ Results:</h2>
                     <div id="resultsList" style="display:block"></div>
-                    <button style="position:absolute;right:10px;top:10px;background:none;border:none;color:#FFF;cursor:pointer" onclick="this.parentNode.style.display='none'">X</button>
                 `
             });
             document.body.appendChild(div);
