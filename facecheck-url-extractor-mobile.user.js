@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.8.0
 // @description  Extracts image URLs from FaceCheck results with collapsible list
-// @author       vin31_
+// @author       vin31_ modifed by Nthompson096 with perplexity.ai
 // @match        https://facecheck.id/*
 // @grant        none
 // ==/UserScript==
