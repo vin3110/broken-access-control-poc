@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Base64 URL Extractor for FaceCheck Results (Sorted with Ratings)
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  Extracts image URLs from FaceCheck results with sorting by confidence and rating display
 // @author       vin31_ modified by Nthompson096 and perplexity.ai
 // @match        https://facecheck.id/*
@@ -40,13 +40,20 @@
                         const distSpan = fimg.parentElement.querySelector('.dist');
                         const confidence = distSpan ? parseInt(distSpan.textContent) : 0;
                         let rating;
+
+                        // Updated rating logic based on provided criteria
                         if (confidence >= 90) {
-                            rating = 'high';
+                            rating = 'Certain Match';
+                        } else if (confidence >= 83) {
+                            rating = 'Confident Match';
                         } else if (confidence >= 70) {
-                            rating = 'medium';
+                            rating = 'Uncertain Match';
+                        } else if (confidence >= 50) {
+                            rating = 'Weak Match';
                         } else {
-                            rating = 'low';
+                            rating = 'No Match';
                         }
+
                         results.push({ url: urlMatch[0], domain, confidence, rating });
                     }
                 }
@@ -59,8 +66,11 @@
 
         let output = "<ul style='list-style:none;padding:0;'>";
         results.forEach((result, index) => {
-            const ratingColor = result.rating === 'high' ? 'yellow' :
-                                result.rating === 'medium' ? 'orange' : 'white';
+            const ratingColor = result.rating === 'Certain Match' ? 'green' :
+                                result.rating === 'Confident Match' ? 'yellow' :
+                                result.rating === 'Uncertain Match' ? 'orange' :
+                                result.rating === 'Weak Match' ? 'red' : 'white';
+
             output += `<li>${index + 1}. <a href="${result.url}" target="_blank" style="color:#00FFFF;">${result.domain}</a> <span style="color:${ratingColor};">(${result.confidence}% - ${result.rating})</span></li>`;
         });
         linkDiv.innerHTML += output + "</ul>";
