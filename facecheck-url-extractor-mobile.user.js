@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         FaceCheck URL Extractor mobile
+// @name         FaceCheck URL Extractor mobile with Ratings
 // @namespace    http://tampermonkey.net/
-// @version      1.8.0
-// @description  Extracts image URLs from FaceCheck for mobile phones
-// @author       vin31_ modifed by Nthompson096 with perplexity.ai
+// @version      1.9.0
+// @description  Extracts image URLs and ratings from FaceCheck for mobile phones
+// @author       vin31_ modified by Nthompson096 with perplexity.ai
 // @match        https://facecheck.id/*
 // @grant        none
 // ==/UserScript==
@@ -11,9 +11,16 @@
 (() => {
     'use strict';
     const extractUrls = max => [...Array(max)].map((_, i) => {
-        const bg = window.getComputedStyle(document.querySelector(`#fimg${i}`) || {}).backgroundImage;
+        const fimg = document.querySelector(`#fimg${i}`);
+        if (!fimg) return null;
+        const bg = window.getComputedStyle(fimg).backgroundImage;
         const url = atob(bg.match(/base64,(.*)"/)?.[1] || '').match(/https?:\/\/[^\s"]+/)?.[0];
-        return url ? {url, domain: new URL(url).hostname.replace('www.', '')} : null;
+        if (!url) return null;
+        const distSpan = fimg.parentElement.querySelector('.dist');
+        const confidence = distSpan ? parseInt(distSpan.textContent) : 0;
+        const rating = distSpan.classList.contains('yellow') ? 'high' :
+                       distSpan.classList.contains('uncertain') ? 'uncertain' : 'low';
+        return {url, domain: new URL(url).hostname.replace('www.', ''), confidence, rating};
     }).filter(Boolean);
 
     const init = async () => {
@@ -29,7 +36,12 @@
 
             const urls = extractUrls(Math.min(Math.max(parseInt(prompt('How many URLs to extract? (1-50)', '10')) || 10, 1), 50));
             const resultsList = div.querySelector('#resultsList');
-            resultsList.innerHTML = urls.length ? urls.map((item, i) => `<a href="${item.url}" target="_blank" style="color:#00FFFF;text-decoration:none;display:block;margin-bottom:10px">${i+1}. ${item.domain}</a>`).join('') : '<p>No URLs found</p>';
+            resultsList.innerHTML = urls.length ? urls.map((item, i) => {
+                const ratingColor = item.rating === 'high' ? 'yellow' : item.rating === 'uncertain' ? 'orange' : 'white';
+                return `<a href="${item.url}" target="_blank" style="color:#00FFFF;text-decoration:none;display:block;margin-bottom:10px">
+                    ${i+1}. ${item.domain} <span style="color:${ratingColor};">(${item.confidence}% - ${item.rating})</span>
+                </a>`;
+            }).join('') : '<p>No URLs found</p>';
 
             div.querySelector('#resultsToggle').addEventListener('click', () => {
                 resultsList.style.display = resultsList.style.display === 'none' ? 'block' : 'none';
