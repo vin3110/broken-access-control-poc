@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FaceCheck URL Extractor mobile with Ratings
 // @namespace    http://tampermonkey.net/
-// @version      1.9.0
+// @version      2.0.0
 // @description  Extracts image URLs and ratings from FaceCheck for mobile phones
 // @author       vin31_ modified by Nthompson096 with perplexity.ai
 // @match        https://facecheck.id/*
@@ -18,8 +18,12 @@
         if (!url) return null;
         const distSpan = fimg.parentElement.querySelector('.dist');
         const confidence = distSpan ? parseInt(distSpan.textContent) : 0;
-        const rating = distSpan.classList.contains('yellow') ? 'high' :
-                       distSpan.classList.contains('uncertain') ? 'uncertain' : 'low';
+        let rating;
+        if (confidence >= 90) rating = 'Certain Match';
+        else if (confidence >= 83) rating = 'Confident Match';
+        else if (confidence >= 70) rating = 'Uncertain Match';
+        else if (confidence >= 50) rating = 'Weak Match';
+        else rating = 'No Match';
         return {url, domain: new URL(url).hostname.replace('www.', ''), confidence, rating};
     }).filter(Boolean);
 
@@ -37,7 +41,10 @@
             const urls = extractUrls(Math.min(Math.max(parseInt(prompt('How many URLs to extract? (1-50)', '10')) || 10, 1), 50));
             const resultsList = div.querySelector('#resultsList');
             resultsList.innerHTML = urls.length ? urls.map((item, i) => {
-                const ratingColor = item.rating === 'high' ? 'yellow' : item.rating === 'uncertain' ? 'orange' : 'white';
+                const ratingColor = item.rating === 'Certain Match' ? 'green' :
+                                    item.rating === 'Confident Match' ? 'yellow' :
+                                    item.rating === 'Uncertain Match' ? 'orange' :
+                                    item.rating === 'Weak Match' ? 'red' : 'white';
                 return `<a href="${item.url}" target="_blank" style="color:#00FFFF;text-decoration:none;display:block;margin-bottom:10px">
                     ${i+1}. ${item.domain} <span style="color:${ratingColor};">(${item.confidence}% - ${item.rating})</span>
                 </a>`;
