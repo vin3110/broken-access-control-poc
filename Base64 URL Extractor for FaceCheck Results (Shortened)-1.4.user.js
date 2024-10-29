@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Base64 URL Extractor for FaceCheck Results (Shortened)
+// @name         Base64 URL Extractor for FaceCheck Results (Sorted with Ratings)
 // @namespace    http://tampermonkey.net/
-// @version      1.5
-// @description  Extracts image URLs from FaceCheck results with delayed user input and hidden results tab
+// @version      1.7
+// @description  Extracts image URLs from FaceCheck results with sorting by confidence and rating display
 // @author       vin31_ modified by Nthompson096 and perplexity.ai
 // @match        https://facecheck.id/*
 // @grant        none
@@ -26,8 +26,8 @@
 
     const isResultsPage = () => /https:\/\/facecheck\.id\/(?:[a-z]{2})?\#.+/.test(window.location.href);
 
-    const extractUrls = (maxResults, linkDiv) => {
-        let output = "<ul style='list-style:none;padding:0;'>";
+    const extractUrls = (maxResults, linkDiv, sortByConfidence) => {
+        let results = [];
         for (let i = 0; i < maxResults; i++) {
             const fimg = document.querySelector(`#fimg${i}`);
             if (fimg) {
@@ -37,11 +37,26 @@
                     const urlMatch = atob(base64Match[1]).match(/https?:\/\/[^\s"]+/);
                     if (urlMatch) {
                         const domain = new URL(urlMatch[0]).hostname.replace('www.', '');
-                        output += `<li>${i + 1}. <a href="${urlMatch[0]}" target="_blank" style="color:#00FFFF;">${domain}</a></li>`;
+                        const distSpan = fimg.parentElement.querySelector('.dist');
+                        const confidence = distSpan ? parseInt(distSpan.textContent) : 0;
+                        const rating = distSpan.classList.contains('yellow') ? 'high' :
+                                       distSpan.classList.contains('uncertain') ? 'uncertain' : 'low';
+                        results.push({ url: urlMatch[0], domain, confidence, rating });
                     }
                 }
             }
         }
+
+        if (sortByConfidence) {
+            results.sort((a, b) => b.confidence - a.confidence);
+        }
+
+        let output = "<ul style='list-style:none;padding:0;'>";
+        results.forEach((result, index) => {
+            const ratingColor = result.rating === 'high' ? 'yellow' :
+                                result.rating === 'uncertain' ? 'orange' : 'white';
+            output += `<li>${index + 1}. <a href="${result.url}" target="_blank" style="color:#00FFFF;">${result.domain}</a> <span style="color:${ratingColor};">(${result.confidence}% - ${result.rating})</span></li>`;
+        });
         linkDiv.innerHTML += output + "</ul>";
         linkDiv.style.display = "block";
     };
@@ -50,7 +65,8 @@
         setTimeout(() => {
             const userCount = parseInt(prompt("How many URLs to extract? (1-50)", "10"), 10);
             const maxResults = (isNaN(userCount) || userCount < 1 || userCount > 50) ? 10 : userCount;
-            setTimeout(() => extractUrls(maxResults, linkDiv), 1000);
+            const sortByConfidence = confirm("Sort results by confidence?");
+            setTimeout(() => extractUrls(maxResults, linkDiv, sortByConfidence), 1000);
         }, 1000);
     };
 
