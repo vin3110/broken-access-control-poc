@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FaceCheck URL Extractor with Ratings (Desktop and Mobile)
 // @namespace    http://tampermonkey.net/
-// @version      2.1.0
+// @version      2.2.0
 // @description  Extracts image URLs and ratings from FaceCheck results for both desktop and mobile
 // @author       vin31_ modified by Nthompson096 and perplexity.ai
 // @match        https://facecheck.id/*
@@ -30,10 +30,11 @@
             fontSize: isMobile ? "14px" : "16px",
             display: "none"
         });
-        div.innerHTML = `
-            <h2 style="color:#FFFFFF;font-size:18px;margin:0 0 10px 0;cursor:pointer" id="resultsToggle">▼ Results:</h2>
-            <div id="resultsList"></div>
-        `;
+        div.innerHTML = isMobile ?
+            `<h2 style="color:#FFFFFF;font-size:18px;margin:0 0 10px 0;cursor:pointer" id="resultsToggle">▼ Results:</h2>
+            <div id="resultsList"></div>` :
+            `<h2 style="color:#FFFFFF;font-size:18px;margin:0 0 10px 0;">Results:</h2>
+            <div id="resultsList"></div>`;
         document.body.appendChild(div);
         return div;
     };
@@ -102,9 +103,11 @@
         }
     }, 1000);
 
-    linkDiv.querySelector('#resultsToggle').addEventListener('click', () => {
-        const resultsList = linkDiv.querySelector('#resultsList');
-        resultsList.style.display = resultsList.style.display === 'none' ? 'block' : 'none';
-        linkDiv.querySelector('#resultsToggle').textContent = (resultsList.style.display === 'none' ? '▶' : '▼') + ' Results:';
-    });
+    if (isMobile) {
+        linkDiv.querySelector('#resultsToggle').addEventListener('click', () => {
+            const resultsList = linkDiv.querySelector('#resultsList');
+            resultsList.style.display = resultsList.style.display === 'none' ? 'block' : 'none';
+            linkDiv.querySelector('#resultsToggle').textContent = (resultsList.style.display === 'none' ? '▶' : '▼') + ' Results:';
+        });
+    }
 })();
