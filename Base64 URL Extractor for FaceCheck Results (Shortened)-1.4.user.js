@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Base64 URL Extractor for FaceCheck Results (Shortened)
 // @namespace    http://tampermonkey.net/
-// @version      1.4
-// @description  Extracts image URLs from FaceCheck results with delayed user input
+// @version      1.5
+// @description  Extracts image URLs from FaceCheck results with delayed user input and hidden results tab
 // @author       vin31_ modified by Nthompson096 and perplexity.ai
 // @match        https://facecheck.id/*
 // @grant        none
@@ -17,7 +17,7 @@
             position: "fixed", left: "10px", top: "70px", background: "black",
             color: "#00FFFF", opacity: "0.8", overflow: "auto", zIndex: "9999",
             padding: "10px", textAlign: "left", width: "300px", height: "300px",
-            borderRadius: "8px"
+            borderRadius: "8px", display: "none"
         });
         div.innerHTML = "<h2 style='color:#FFFFFF;font-size:18px;margin:0 0 10px 0'>Results:</h2>";
         document.body.appendChild(div);
@@ -43,6 +43,7 @@
             }
         }
         linkDiv.innerHTML += output + "</ul>";
+        linkDiv.style.display = "block";
     };
 
     const initiateExtraction = (linkDiv) => {
