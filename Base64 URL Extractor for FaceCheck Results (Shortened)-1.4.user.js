@@ -11,8 +11,10 @@
 (function() {
     'use strict';
 
+    // Function to create a floating div to display results
     const createFloatingDiv = () => {
         const div = document.createElement("div");
+        // Set styles for the floating div
         Object.assign(div.style, {
             position: "fixed", left: "10px", top: "70px", background: "black",
             color: "#00FFFF", opacity: "0.8", overflow: "auto", zIndex: "9999",
@@ -24,10 +26,13 @@
         return div;
     };
 
+    // Function to check if the current page is a results page
     const isResultsPage = () => /https:\/\/facecheck\.id\/(?:[a-z]{2})?\#.+/.test(window.location.href);
 
+    // Function to extract URLs and display results
     const extractUrls = (maxResults, linkDiv, sortByConfidence) => {
         let results = [];
+        // Loop through the results and extract information
         for (let i = 0; i < maxResults; i++) {
             const fimg = document.querySelector(`#fimg${i}`);
             if (fimg) {
@@ -47,10 +52,12 @@
             }
         }
 
+        // Sort results by confidence
         if (sortByConfidence) {
             results.sort((a, b) => b.confidence - a.confidence);
         }
 
+        // Generate HTML output for results
         let output = "<ul style='list-style:none;padding:0;'>";
         results.forEach((result, index) => {
             const ratingColor = result.rating === 'high' ? 'yellow' :
@@ -61,15 +68,20 @@
         linkDiv.style.display = "block";
     };
 
+    // Function to initiate the extraction process
     const initiateExtraction = (linkDiv) => {
         setTimeout(() => {
+            // Prompt user for number of URLs to extract
             const userCount = parseInt(prompt("How many URLs to extract? (1-50)", "10"), 10);
             const maxResults = (isNaN(userCount) || userCount < 1 || userCount > 50) ? 10 : userCount;
+            // Extract URLs after a short delay
             setTimeout(() => extractUrls(maxResults, linkDiv), 1000);
         }, 1000);
     };
 
+    // Create the floating div to display results
     const linkDiv = createFloatingDiv();
+    // Check periodically if we're on a results page
     const checkInterval = setInterval(() => {
         if (isResultsPage() && document.querySelector("#fimg0")) {
             initiateExtraction(linkDiv);
