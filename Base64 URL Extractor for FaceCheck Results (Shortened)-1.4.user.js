@@ -65,8 +65,7 @@
         setTimeout(() => {
             const userCount = parseInt(prompt("How many URLs to extract? (1-50)", "10"), 10);
             const maxResults = (isNaN(userCount) || userCount < 1 || userCount > 50) ? 10 : userCount;
-            const sortByConfidence = confirm("Sort results by confidence?");
-            setTimeout(() => extractUrls(maxResults, linkDiv, sortByConfidence), 1000);
+            setTimeout(() => extractUrls(maxResults, linkDiv), 1000);
         }, 1000);
     };
 
