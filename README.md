@@ -5,7 +5,7 @@ This script extracts base64-encoded img.webp data from FaceCheck search results.
 ## How to Install
 1. Install Tampermonkey in your browser (available for Chrome, Firefox, and others).
 2. Click on the Tampermonkey icon in your browser, and select "Create a new script".
-3. Copy the content from the `facecheck-url-extractor.user.js` file and paste it into the Tampermonkey editor.
+3. Copy the content from the `FaceCheck URL Extractor with Ratings (Desktop and Mobile)-2.1.0.user.js` file and paste it into the Tampermonkey editor.
 4. Save the script.
 
 ## How to Use
