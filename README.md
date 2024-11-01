@@ -1,12 +1,46 @@
 # facecheck.id-results-extractor
-A Tampermonkey script to extract URLs from FaceCheck.id results for free.
-This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected, it asks the user how many URLs to extract (up to 50) and displays the results in a box in the upper-left corner of the webpage.
 
+A script written in JavaScript to extract URLs from FaceCheck.id results for free. This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected, it asks the user how many URLs to extract (up to 50) and displays the results in a box in the upper-left corner of the webpage.
+
+## Available Scripts
+
+There are three versions of the script, tailored for different devices:
+
+1. **facecheck-url-extractor-desktop.user.js**: Optimized and styled for desktop use. *Doesn't re-sort the results (Uses accuracy sorting FaceCheck.id provides).
+
+2. **facecheck-url-extractor-mobile.user.js**: Optimized and styled for mobile use. *Doesn't re-sort the results (Uses accuracy sorting FaceCheck.id provides).
+
+3. **facecheck-url-extractor-desktop&mobile.user.js**: A universal version that adapts to both desktop and mobile devices. *Re-sorts the individual links based on accuracy.
+   
+* -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
+ 
 ## How to Install
+
+### For Desktop Browsers
+
 1. Install Tampermonkey in your browser (available for Chrome, Firefox, and others).
-2. Click on the Tampermonkey icon in your browser, and select "Create a new script".
-3. Copy the content from the `FaceCheck URL Extractor with Ratings (Desktop and Mobile)-2.1.0.user.js` file and paste it into the Tampermonkey editor.
-4. Save the script.
+2. Click on the Tampermonkey icon in your browser and select "Create a new script".
+3. Copy the content from the desired script file:
+   - `facecheck-url-extractor-desktop&mobile.user.js`
+   - `facecheck-url-extractor-desktop.user.js`
+4. Paste the copied content into the Tampermonkey editor.
+5. Save the script.
+
+### For Mobile Browsers
+
+To install on mobile, you need a mobile browser extention that supports running local JavaScript scripts ('Userscripts' app on iOS)('Tampermonkey' on Android).
+
+1. **Install Userscripts/Tampermonkey**:
+   - On **Android**: Install a compattible browser, for example: **Firefox** or **Kiwi Browser**, from the Google Play Store, then add the Tampermonkey extension from the browser’s add-ons/extensions page.
+   - On **iOS**: Userscripts is available as a standalone app that can run user scripts in any browser.
+I recommend watching a setup tutorial if you're confused about any of this.
+   
+2. **Add the Script**:
+   - Browse to the GitHub in your browser.
+   - Download the desired script file:
+       - `facecheck-url-extractor-desktop&mobile.user.js`
+       - `facecheck-url-extractor-desktop.user.js`
+   - Paste the script into the correct location. (Again, I recommend watching a setup tutorial if you're confused about any of this.)
 
 ## How to Use
 1. Navigate to the results page on FaceCheck.id.
