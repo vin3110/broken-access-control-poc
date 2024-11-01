@@ -51,7 +51,7 @@
             const { rating, color } = getRating(confidence);
 
             return { url: urlMatch[0], domain, confidence, rating, color };
-        }).filter(Boolean).sort((a, b) => b.confidence - a.confidence);
+        }).filter(Boolean);
     };
 
     // Display results in floating div
