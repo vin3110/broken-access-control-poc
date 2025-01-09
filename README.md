@@ -18,12 +18,12 @@ A JavaScript userscript that enhances FaceCheck.id by providing an interactive h
 ## Changes from Original Version
 
 ### Removed Features
-- Manual URL count selection prompt
-- Static results box in corner
+- **Manual URL count selection prompt**: The script no longer asks the user to manually specify the number of URLs to extract
+- **Static results box in the corner**: The fixed results box has been replaced with a dynamic, hover-based popup
 
 ### Added Features
-- Hover-based interaction system
-- Automatic group detection and handling
+- **Hover-based interaction system**: URLs and confidence ratings are now displayed in a sleek, floating popup when hovering over search results
+- **Automatic group detection and handling**: The script now detects and displays all related URLs for grouped results without requiring manual input
 
 ## Installation (Desktop only)
 
