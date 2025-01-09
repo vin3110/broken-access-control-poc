@@ -11,27 +11,50 @@
 (function() {
     'use strict';
 
+    // CSS Variables for easy theme management
+    const styles = `
+        :root {
+            --popup-bg: black;
+            --popup-color: #00FFFF;
+            --popup-opacity: 0.9;
+            --popup-border: 1px solid #00FFFF;
+            --popup-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            --popup-radius: 8px;
+            --popup-padding: 10px;
+            --popup-width: 300px;
+            --popup-max-height: 400px;
+        }
+        .popup {
+            position: fixed;
+            background: var(--popup-bg);
+            color: var(--popup-color);
+            opacity: var(--popup-opacity);
+            border: var(--popup-border);
+            box-shadow: var(--popup-shadow);
+            border-radius: var(--popup-radius);
+            padding: var(--popup-padding);
+            width: var(--popup-width);
+            max-height: var(--popup-max-height);
+            overflow-y: auto;
+            display: none;
+            pointer-events: auto;
+            transition: opacity 0.3s ease;
+        }
+        .popup.visible {
+            display: block;
+        }
+    `;
+
+    // Inject styles into the document
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
     // Create and style the popup window
     const createPopup = () => {
         const popup = document.createElement("div");
-        Object.assign(popup.style, {
-            position: "fixed",
-            background: "black",
-            color: "#00FFFF",
-            opacity: "0.9",
-            overflow: "auto",
-            zIndex: "9999",
-            padding: "10px",
-            textAlign: "left",
-            width: "300px",
-            maxHeight: "400px", // Maximum height of the window
-            overflowY: "auto", // Vertical scroll
-            borderRadius: "8px",
-            display: "none",
-            border: "1px solid #00FFFF",
-            boxShadow: "0 0 10px rgba(0, 255, 255, 0.5)",
-            pointerEvents: "auto" // Allow interaction with the popup
-        });
+        popup.classList.add("popup");
         document.body.appendChild(popup);
         return popup;
     };
@@ -91,7 +114,7 @@
     // Function to display results in the popup window
     const displayResults = (results, popup, fimg) => {
         const rect = fimg.getBoundingClientRect();
-        popup.style.left = `${rect.right - 155}px`; // Add an offset of 20px
+        popup.style.left = `${rect.right - 155}px`;
         popup.style.top = `${rect.top}px`;
 
         const resultsList = results.map(result => `
@@ -104,7 +127,7 @@
         `).join('');
 
         popup.innerHTML = `<ul style='list-style:none;padding:0;'>${resultsList}</ul>`;
-        popup.style.display = "block";
+        popup.classList.add('visible');
     };
 
     // Create the popup window
@@ -114,12 +137,12 @@
     const addHoverListeners = () => {
         const fimgElements = document.querySelectorAll('[id^="fimg"]');
         let hoverTimeout;
-        let isPopupHovered = false; // Flag indicating whether the cursor is on the popup
+        let isPopupHovered = false;
 
         fimgElements.forEach(fimg => {
             fimg.addEventListener('mouseenter', () => {
-                if (isPopupHovered) return; // If the cursor is on the popup, ignore
-                clearTimeout(hoverTimeout); // Clear the timer if it exists
+                if (isPopupHovered) return;
+                clearTimeout(hoverTimeout);
                 const results = extractUrls(fimg);
                 if (results.length > 0) {
                     displayResults(results, popup, fimg);
@@ -127,23 +150,22 @@
             });
 
             fimg.addEventListener('mouseleave', () => {
-                if (isPopupHovered) return; // If the cursor is on the popup, ignore
-                // Set a delay before hiding the popup
+                if (isPopupHovered) return;
                 hoverTimeout = setTimeout(() => {
-                    popup.style.display = "none";
-                }, 300); // Delay of 300 ms
+                    popup.classList.remove('visible');
+                }, 300);
             });
         });
 
         // Event handler for the popup
         popup.addEventListener('mouseenter', () => {
-            isPopupHovered = true; // Cursor is on the popup
-            clearTimeout(hoverTimeout); // Cancel hiding
+            isPopupHovered = true;
+            clearTimeout(hoverTimeout);
         });
 
         popup.addEventListener('mouseleave', () => {
-            isPopupHovered = false; // Cursor has left the popup
-            popup.style.display = "none"; // Hide the popup
+            isPopupHovered = false;
+            popup.classList.remove('visible');
         });
     };
 
