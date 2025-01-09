@@ -24,6 +24,9 @@ A JavaScript userscript that enhances FaceCheck.id by providing an interactive h
 ### Added Features
 - **Hover-based interaction system**: URLs and confidence ratings are now displayed in a sleek, floating popup when hovering over search results
 - **Automatic group detection and handling**: The script now detects and displays all related URLs for grouped results without requiring manual input
+- **Dynamic theme switching**: The script now supports light and dark themes based on the `theme` cookie
+- **Modern UI with CSS variables**: The popup features a modern design with smooth animations and transitions
+- **Improved event handling**: Optimized event listeners for better performance and responsiveness
 
 ## Installation (Desktop only)
 
@@ -41,7 +44,7 @@ A JavaScript userscript that enhances FaceCheck.id by providing an interactive h
 4. Move your cursor to the popup to interact with the links
 5. Click any URL to open it in a new tab
 
-![alt text](https://github.com/0wn3dg0d/facecheck.id-results-extractor-v2/blob/main/hiw1.png)
+![alt text](https://github.com/0wn3dg0d/facecheck.id-results-extractor-v2/blob/main/ResultPrev.jpg)
 
 ## What is FaceCheck.id?
 
@@ -54,7 +57,8 @@ The script works by:
 2. Extracting embedded XMP metadata containing source URLs
 3. Processing confidence ratings from the page
 4. Grouping related results based on FaceCheck.id's internal grouping system
-5. Presenting the data in a user-friendly hover interface
+5. Presenting the data in a user-friendly hover interface with smooth animations
+6. Supporting dynamic theme switching based on the `theme` cookie
 
 ## Disclaimers
 
