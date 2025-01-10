@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         URL Extractor for FaceCheck Results - Desktop
+// @name         URL Extractor for FaceCheck Results - Desktop (V2)
 // @namespace    http://tampermonkey.net/
 // @version      2.0.2
 // @description  Extracts image URLs from FaceCheck results and displays them in a modern, responsive popup with confidence ratings. Supports grouping, hover interactions, and theme preferences based on cookies.
