@@ -1,4 +1,4 @@
-# facecheck.id-results-extractor
+# facecheck.id-results-extractor-v2
 
 *Modified version of [vin3110's original script](https://github.com/vin3110/facecheck.id-results-extractor)*
 
