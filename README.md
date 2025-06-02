@@ -55,8 +55,8 @@ I recommend watching a setup tutorial if you're confused about any of this.
 2. **Add the Script**:
    - Browse to the GitHub in your browser.
    - Download the desired script file:
-       - `facecheck-url-extractor-desktop&mobile.user.js`
-       - `facecheck-url-extractor-desktop.user.js`
+       - `facecheck-url-extractor-desktopV2.user.js`
+       - `facecheck-url-extractor-desktop&mobileV1.user.js`
    - Paste the script into the correct location. (Again, I recommend watching a setup tutorial if you're confused about any of this.)
 
 ## How to Use
