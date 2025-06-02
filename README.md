@@ -21,11 +21,11 @@ There are three versions of the script, tailored for different devices:
    - Group Support: Automatically detects and displays related URLs for grouped images.
 
    - Confidence Ratings: Visual ratings are displayed clearly:
-      Green (90%+): Certain Match
-      Yellow (83-89%): Confident Match
-      Orange (70-82%): Uncertain Match
-      Red (50-69%): Weak Match
-      Grey (<50%): No Match
+      - Green (90%+): Certain Match
+      - Yellow (83-89%): Confident Match
+      - Orange (70-82%): Uncertain Match
+      - Red (50-69%): Weak Match
+      - Grey (<50%): No Match
 
    - Dynamic Theme Switching: Supports both dark and light themes based on your site's theme setting.
 
