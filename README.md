@@ -62,13 +62,16 @@ I recommend watching a setup tutorial if you're confused about any of this.
 2. Enable the script and use the FaceCheck.id search.
 3. A popup will ask how many URLs you'd like to extract (between 1 and 50).
 4. The script will extract and display the URLs found in a black box in the upper-left corner of the webpage.
-![alt text](https://github.com/vin3110/facecheck.id-results-extractor/blob/main/results-example.png)
+![image](https://github.com/user-attachments/assets/15cc1eca-e248-4782-98bd-4f5cee129403)
+
 
 ### V2:
 1. Navigate to FaceCheck.id and run your search.
 2. Hover your cursor over individual results.
 4. A popup will display URLs along with their confidence ratings.
 5. Click URLs to open in new tabs.
+![image](https://github.com/user-attachments/assets/e04ffa98-f9a6-44ce-a4b5-79466e388bac)
+
 
 ## What is FaceCheck.id?
 
