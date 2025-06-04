@@ -4,15 +4,13 @@ A script written in JavaScript to extract URLs from FaceCheck.id results for fre
 
 ## Available Scripts
 
-There are three versions of the script, tailored for different devices:
+As of now there is one version of the script usable on desktop and mobile.
 
-1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
-   
-* -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
+1. **facecheck-url-extractor-desktop&mobileV2.user.js**: This updated version introduces a new, interactive hover-based popup instead of a static results box on desktop and an interactive results 'menu' inbedded within the webpage on mobile.
 
 ## Details on Version 2
 
-   - Interactive Hover-Based Popup: Results appear dynamically when hovering over search images.
+   - Interactive Popups: Results appear dynamically when hovering over search images.
 
    - Group Support: Automatically detects and displays related URLs for grouped images.
 
@@ -27,7 +25,7 @@ There are three versions of the script, tailored for different devices:
 
    - Enhanced User Experience: Smooth animations, and responsive interactions.
 
-   - Added in mobile functionality
+   - Added in extra mobile functionality
  
 ## How to Install
 
@@ -57,7 +55,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 
 ## How to Use
 
-### V2 (mobile):
+### V2 (Mobile):
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
 3. Will show the results on top of the picture below it (see the example)
@@ -66,7 +64,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 
 
 
-### V2:
+### V2(Desktop):
 1. Navigate to FaceCheck.id and run your search.
 2. Hover your cursor over individual results.
 4. A popup will display URLs along with their confidence ratings.
