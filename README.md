@@ -61,6 +61,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
 3. Will show the results on top of the picture below it (see the example)
+
 ![image](https://github.com/user-attachments/assets/18a38c62-d444-4779-a372-d3ef1ee79a3b)
 
 
