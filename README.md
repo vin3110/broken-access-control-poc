@@ -60,9 +60,9 @@ I recommend watching a setup tutorial if you're confused about any of this.
 ### V2 (mobile):
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
-3. A popup will ask how many URLs you'd like to extract (between 1 and 50).
-4. The script will extract and display the URLs found in a black box in the upper-left corner of the webpage.
-![image](https://github.com/user-attachments/assets/15cc1eca-e248-4782-98bd-4f5cee129403)
+3. Will show the results on top of the picture below it (see the example)
+![image](https://github.com/user-attachments/assets/18a38c62-d444-4779-a372-d3ef1ee79a3b)
+
 
 
 ### V2:
