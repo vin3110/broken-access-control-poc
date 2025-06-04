@@ -45,10 +45,10 @@ There are three versions of the script, tailored for different devices:
 
 ### For Mobile Browsers
 
-To install on mobile, you need a mobile browser extention that supports running local JavaScript scripts ('Userscripts' app on iOS)('Tampermonkey' on Android).
+To install on mobile, you need a mobile browser extension that supports running local JavaScript scripts ('Userscripts' app on iOS)('Tampermonkey' on Android).
 
 1. **Install Userscripts/Tampermonkey**:
-   - On **Android**: Install a compattible browser, for example: **Firefox** or **Kiwi Browser**, from the Google Play Store, then add the Tampermonkey extension from the browser’s add-ons/extensions page.
+   - On **Android**: Install a compatible browser, for example: **Firefox** or **Kiwi Browser**, from the Google Play Store, then add the Tampermonkey extension from the browser’s add-ons/extensions page.
    - On **iOS**: Userscripts is available as a standalone app that can run user scripts in any browser.
 I recommend watching a setup tutorial if you're confused about any of this.
    
@@ -85,7 +85,7 @@ While the service offers free searches, detailed results, such as links to the s
 
 FaceCheck.id embeds search result images as a string of a base64-encoded webp file. These images often contain embedded metadata in the form of XMP (Extensible Metadata Platform) data, which is typically included in image files to store information such as copyright details, camera settings, or links related to the image.
 
-In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got it's images from, like social media profiles or other web pages related to the search result. 
+In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got its images from, like social media profiles or other web pages related to the search result. 
 
 The critical point here is that FaceCheck.id does not strip or remove this XMP metadata before embedding the webp images on their results page. As a result, the metadata, including the URLs, remains intact within the image data, allowing it to be accessed and decoded without needing to pay for the results.
 
