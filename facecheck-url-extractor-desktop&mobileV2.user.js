@@ -87,7 +87,7 @@ if (isMobile) {
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 100%, rgba(0,0,0,0.7) 0%, transparent);
             color: white;
             padding: 12px 8px 8px 8px;
             font-size: 14px;  /* Increased from 11px */
@@ -400,13 +400,19 @@ if (isMobile) {
         // Create the popup window
         const popup = createPopup();
 
+        // Track which elements have listeners attached
+        const processedFimgs = new WeakSet();
+        let hoverTimeout;
+        let isPopupHovered = false;
+
         // Add event listeners for all fimg elements
         const addHoverListeners = () => {
             const fimgElements = document.querySelectorAll('[id^="fimg"]');
-            let hoverTimeout;
-            let isPopupHovered = false;
 
             fimgElements.forEach(fimg => {
+                if (processedFimgs.has(fimg)) return;
+                processedFimgs.add(fimg);
+
                 fimg.addEventListener('mouseenter', () => {
                     if (isPopupHovered) return;
                     clearTimeout(hoverTimeout);
@@ -440,7 +446,6 @@ if (isMobile) {
         const desktopCheckInterval = setInterval(() => {
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
                 addHoverListeners();
-                clearInterval(desktopCheckInterval);
             }
         }, 1000);
     }
