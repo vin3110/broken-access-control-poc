@@ -400,13 +400,19 @@ if (isMobile) {
         // Create the popup window
         const popup = createPopup();
 
+        // Track which elements have listeners attached
+        const processedFimgs = new WeakSet();
+        let hoverTimeout;
+        let isPopupHovered = false;
+
         // Add event listeners for all fimg elements
         const addHoverListeners = () => {
             const fimgElements = document.querySelectorAll('[id^="fimg"]');
-            let hoverTimeout;
-            let isPopupHovered = false;
 
             fimgElements.forEach(fimg => {
+                if (processedFimgs.has(fimg)) return;
+                processedFimgs.add(fimg);
+
                 fimg.addEventListener('mouseenter', () => {
                     if (isPopupHovered) return;
                     clearTimeout(hoverTimeout);
@@ -440,7 +446,6 @@ if (isMobile) {
         const desktopCheckInterval = setInterval(() => {
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
                 addHoverListeners();
-                clearInterval(desktopCheckInterval);
             }
         }, 1000);
     }
