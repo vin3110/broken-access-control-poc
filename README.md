@@ -1,18 +1,33 @@
 # facecheck.id-results-extractor
 
-A script written in JavaScript to extract URLs from FaceCheck.id results for free. This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected, it asks the user how many URLs to extract (up to 50) and displays the results in a box in the upper-left corner of the webpage.
+A script written in JavaScript to extract URLs from FaceCheck.id results for free. This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected the script displays the results on the webpage as clickable links. *(The way the results are displayed is different depending on the version you use.)
 
 ## Available Scripts
 
 There are three versions of the script, tailored for different devices:
 
-1. **facecheck-url-extractor-desktop.user.js**: Optimized and styled for desktop use. *Doesn't re-sort the results (Uses accuracy sorting FaceCheck.id provides).
-
-2. **facecheck-url-extractor-mobile.user.js**: Optimized and styled for mobile use. *Doesn't re-sort the results (Uses accuracy sorting FaceCheck.id provides).
-
-3. **facecheck-url-extractor-desktop&mobile.user.js**: A universal version that adapts to both desktop and mobile devices. *Re-sorts the individual links based on accuracy.
+1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
    
 * -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
+
+## Details on Version 2
+
+   - Interactive Hover-Based Popup: Results appear dynamically when hovering over search images.
+
+   - Group Support: Automatically detects and displays related URLs for grouped images.
+
+   - Confidence Ratings: Visual ratings are displayed clearly:
+      - Green (90%+): Certain Match
+      - Yellow (83-89%): Confident Match
+      - Orange (70-82%): Uncertain Match
+      - Red (50-69%): Weak Match
+      - Grey (<50%): No Match
+
+   - Dynamic Theme Switching: Supports both dark and light themes based on your site's theme setting.
+
+   - Enhanced User Experience: Smooth animations, and responsive interactions.
+
+   - Added in mobile functionality
  
 ## How to Install
 
@@ -21,8 +36,7 @@ There are three versions of the script, tailored for different devices:
 1. Install Tampermonkey in your browser (available for Chrome, Firefox, and others).
 2. Click on the Tampermonkey icon in your browser and select "Create a new script".
 3. Copy the content from the desired script file:
-   - `facecheck-url-extractor-desktop&mobile.user.js`
-   - `facecheck-url-extractor-desktop.user.js`
+   - `facecheck-url-extractor-desktop&mobileV2.user.js`
 4. Paste the copied content into the Tampermonkey editor.
 5. Save the script.
 
@@ -38,16 +52,27 @@ I recommend watching a setup tutorial if you're confused about any of this.
 2. **Add the Script**:
    - Browse to the GitHub in your browser.
    - Download the desired script file:
-       - `facecheck-url-extractor-desktop&mobile.user.js`
-       - `facecheck-url-extractor-desktop.user.js`
+       - `facecheck-url-extractor-desktop&mobileV2.user.js`
    - Paste the script into the correct location. (Again, I recommend watching a setup tutorial if you're confused about any of this.)
 
 ## How to Use
+
+### V2 (mobile):
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
-3. A popup will ask how many URLs you'd like to extract (between 1 and 50).
-4. The script will extract and display the URLs found in a black box in the upper-left corner of the webpage.
-![alt text](https://github.com/vin3110/facecheck.id-results-extractor/blob/main/results-example.png)
+3. Will show the results on top of the picture below it (see the example)
+
+![image](https://github.com/user-attachments/assets/18a38c62-d444-4779-a372-d3ef1ee79a3b)
+
+
+
+### V2:
+1. Navigate to FaceCheck.id and run your search.
+2. Hover your cursor over individual results.
+4. A popup will display URLs along with their confidence ratings.
+5. Click URLs to open in new tabs.
+![image](https://github.com/user-attachments/assets/e04ffa98-f9a6-44ce-a4b5-79466e388bac)
+
 
 ## What is FaceCheck.id?
 
