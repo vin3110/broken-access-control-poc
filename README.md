@@ -9,6 +9,7 @@ There are three versions of the script, tailored for different devices:
 1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
    
 * -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
+* Older scripts on located in the [old](https://github.com/airborne-commando/facecheck.id-results-extractor-mobile/tree/old) branch, will not touch this.
 
 ## Details on Version 2
 
