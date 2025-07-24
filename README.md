@@ -4,16 +4,16 @@ A script written in JavaScript to extract URLs from FaceCheck.id results for fre
 
 ## Available Scripts
 
-There are three versions of the script, tailored for different devices:
+As of now there is one version of the script usable on desktop and mobile.
+
 
 1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
    
 * -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
-* Older scripts on located in the [old](https://github.com/airborne-commando/facecheck.id-results-extractor-mobile/tree/old) branch, will not touch this.
 
 ## Details on Version 2
 
-   - Interactive Hover-Based Popup: Results appear dynamically when hovering over search images.
+   - Interactive Popups: Results appear dynamically when hovering over search images.
 
    - Group Support: Automatically detects and displays related URLs for grouped images.
 
@@ -28,7 +28,7 @@ There are three versions of the script, tailored for different devices:
 
    - Enhanced User Experience: Smooth animations, and responsive interactions.
 
-   - Added in mobile functionality
+   - Added in extra mobile functionality
  
 ## How to Install
 
@@ -43,10 +43,10 @@ There are three versions of the script, tailored for different devices:
 
 ### For Mobile Browsers
 
-To install on mobile, you need a mobile browser extention that supports running local JavaScript scripts ('Userscripts' app on iOS)('Tampermonkey' on Android).
+To install on mobile, you need a mobile browser extension that supports running local JavaScript scripts ('Userscripts' app on iOS)('Tampermonkey' on Android).
 
 1. **Install Userscripts/Tampermonkey**:
-   - On **Android**: Install a compattible browser, for example: **Firefox** or **Kiwi Browser**, from the Google Play Store, then add the Tampermonkey extension from the browser’s add-ons/extensions page.
+   - On **Android**: Install a compatible browser, for example: **Firefox** or **Kiwi Browser**, from the Google Play Store, then add the Tampermonkey extension from the browser’s add-ons/extensions page.
    - On **iOS**: Userscripts is available as a standalone app that can run user scripts in any browser.
 I recommend watching a setup tutorial if you're confused about any of this.
    
@@ -58,7 +58,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 
 ## How to Use
 
-### V2 (mobile):
+### V2 (Mobile):
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
 3. Will show the results on top of the picture below it (see the example)
@@ -67,7 +67,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 
 
 
-### V2:
+### V2(Desktop):
 1. Navigate to FaceCheck.id and run your search.
 2. Hover your cursor over individual results.
 4. A popup will display URLs along with their confidence ratings.
@@ -86,7 +86,7 @@ While the service offers free searches, detailed results, such as links to the s
 
 FaceCheck.id embeds search result images as a string of a base64-encoded webp file. These images often contain embedded metadata in the form of XMP (Extensible Metadata Platform) data, which is typically included in image files to store information such as copyright details, camera settings, or links related to the image.
 
-In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got it's images from, like social media profiles or other web pages related to the search result. 
+In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got its images from, like social media profiles or other web pages related to the search result. 
 
 The critical point here is that FaceCheck.id does not strip or remove this XMP metadata before embedding the webp images on their results page. As a result, the metadata, including the URLs, remains intact within the image data, allowing it to be accessed and decoded without needing to pay for the results.
 
