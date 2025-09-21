@@ -11,11 +11,25 @@
 (function() {
     'use strict';
 
+    const showStep = (message) => {
+        if (!window.__facecheckDebugSteps) {
+            window.__facecheckDebugSteps = new Set();
+        }
+        if (!window.__facecheckDebugSteps.has(message)) {
+            window.__facecheckDebugSteps.add(message);
+            alert(`FaceCheck Debug: ${message}`);
+        }
+    };
+
+    showStep('Script geladen');
+
     // Detect mobile device
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    showStep(`Apparaat gedetecteerd: ${isMobile ? 'mobiel' : 'desktop'}`);
 
     // Function to get cookie value by name
     const getCookie = (name) => {
+        showStep(`getCookie uitgevoerd voor ${name}`);
         const cookies = document.cookie.split(';').map(cookie => cookie.trim());
         const targetCookie = cookies.find(cookie => cookie.startsWith(`${name}=`));
         return targetCookie ? targetCookie.split('=')[1] : null;
@@ -23,11 +37,13 @@
 
     // Determine the theme based on the cookie
     const theme = getCookie('theme') || 'dark'; // Default to dark theme if cookie is not set
+    showStep(`Thema gevonden: ${theme}`);
 
     // SHARED FUNCTIONS
 
     // Helper function to determine rating and color based on confidence score
     const getRating = (confidence) => {
+        showStep('getRating aangeroepen');
         if (confidence >= 90) return { rating: 'Certain Match', color: isMobile ? 'green' : '#4caf50' };
         if (confidence >= 83) return { rating: 'Confident Match', color: isMobile ? 'yellow' : '#ffeb3b' };
         if (confidence >= 70) return { rating: 'Uncertain Match', color: isMobile ? 'orange' : '#ff9800' };
@@ -36,16 +52,21 @@
     };
 
     // Helper to check if on results page
-    const isResultsPage = () => /https:\/\/facecheck\.id\/(?:[a-z]{2})?\#.+/.test(window.location.href);
+    const isResultsPage = () => {
+        showStep('Controle op resultatenpagina uitgevoerd');
+        return /https:\/\/facecheck\.id\/(?:[a-z]{2})?\#.+/.test(window.location.href);
+    };
 
     // Shared URL extraction function (works for both mobile and desktop)
     const extractUrls = (fimg) => {
+        showStep('extractUrls gestart');
         const parentAnchor = fimg.closest('a');
         const groupId = parentAnchor ? parentAnchor.getAttribute('data-grp') : null;
         const results = [];
 
         // If it's a group, collect all elements of the group
         if (groupId) {
+            showStep('Groep gedetecteerd, meerdere resultaten worden verwerkt');
             const groupElements = document.querySelectorAll(`a[data-grp="${groupId}"]`);
             groupElements.forEach(groupElement => {
                 const groupFimg = groupElement.querySelector('.facediv') || groupElement.querySelector('[id^="fimg"]');
@@ -56,6 +77,7 @@
             });
         } else {
             // If it's a standalone element
+            showStep('Los resultaat verwerkt');
             const result = extractSingleUrl(fimg);
             if (result) results.push(result);
         }
@@ -65,6 +87,7 @@
 
     // Extract URL from a single image element
     const extractSingleUrl = (fimg) => {
+        showStep('extractSingleUrl gestart');
         const bgImage = window.getComputedStyle(fimg).backgroundImage;
         const base64Match = bgImage.match(/base64,(.*)"/);
         const urlMatch = base64Match ? atob(base64Match[1]).match(/https?:\/\/[^\s"]+/) : null;
@@ -80,6 +103,7 @@
 
 // MOBILE FUNCTIONALITY
 if (isMobile) {
+    showStep('Mobiele modus geactiveerd');
     // Mobile-specific styles for overlays - ENLARGED VERSION
     const mobileStyles = `
         .mobile-overlay {
@@ -194,9 +218,11 @@ if (isMobile) {
         mobileStyleSheet.type = "text/css";
         mobileStyleSheet.innerText = mobileStyles;
         document.head.appendChild(mobileStyleSheet);
+        showStep('Mobiele stijlen geïnjecteerd');
 
         // Create overlay for mobile images
         const createMobileOverlay = (fimg, results) => {
+            showStep('Mobiele overlay wordt aangemaakt');
             // Make sure the parent container has relative positioning
             const container = fimg.parentElement;
             if (!container.classList.contains('fimg-container')) {
@@ -216,6 +242,7 @@ if (isMobile) {
         `;
 
             container.appendChild(overlay);
+            showStep('Mobiele overlay toegevoegd');
 
             // Show overlay with animation after a short delay
             setTimeout(() => {
@@ -227,6 +254,7 @@ if (isMobile) {
 
         // Create floating info panel that shows when tapping on overlay info
         const createInfoPanel = () => {
+            showStep('Mobiel infopaneel wordt aangemaakt');
             const panel = document.createElement("div");
             panel.classList.add("mobile-info-panel");
             panel.innerHTML = `
@@ -234,17 +262,20 @@ if (isMobile) {
             <div id="panel-content"></div>
         `;
             document.body.appendChild(panel);
+            showStep('Mobiel infopaneel toegevoegd aan pagina');
 
             // Close button functionality
             panel.querySelector('.close-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
                 panel.classList.remove('visible');
+                showStep('Sluitknop infopaneel geactiveerd');
             });
 
             // Close when clicking outside
             document.addEventListener('click', (e) => {
                 if (!panel.contains(e.target) && panel.classList.contains('visible')) {
                     panel.classList.remove('visible');
+                    showStep('Klik buiten infopaneel gedetecteerd');
                 }
             });
 
@@ -252,15 +283,18 @@ if (isMobile) {
         };
 
         const infoPanel = createInfoPanel();
+        showStep('Infopaneel referentie opgeslagen');
 
         // Add click handler to overlays to show detailed info
         const addOverlayClickHandler = (overlay, results) => {
             overlay.style.pointerEvents = 'all';
             overlay.style.cursor = 'pointer';
+            showStep('Click handler voor overlay toegevoegd');
 
             overlay.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                showStep('Overlay aangeklikt - details worden getoond');
 
                 const content = results.map((result, index) => `
                 <div class="url-item">
@@ -283,6 +317,7 @@ if (isMobile) {
 
         // Process all mobile images
         const processMobileImages = () => {
+            showStep('Mobiele afbeeldingen worden verwerkt');
             const fimgElements = document.querySelectorAll('[id^="fimg"]');
 
             fimgElements.forEach(fimg => {
@@ -293,22 +328,27 @@ if (isMobile) {
                 if (results.length > 0) {
                     const overlay = createMobileOverlay(fimg, results);
                     addOverlayClickHandler(overlay, results);
+                    showStep('Overlay en click handler ingesteld voor mobiel resultaat');
                 }
             });
         };
 
         // Start processing mobile images
         const mobileCheckInterval = setInterval(() => {
+            showStep('Mobiele interval uitgevoerd');
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
+                showStep('Mobiele resultaten gedetecteerd');
                 processMobileImages();
                 // Continue checking for new images that might load dynamically
                 setTimeout(() => {
                     processMobileImages();
+                    showStep('Mobiele hercontrole uitgevoerd');
                 }, 2000);
             }
         }, 1000);
     } else {
         // DESKTOP FUNCTIONALITY
+        showStep('Desktop modus geactiveerd');
 
         // CSS Variables for easy theme management
         const desktopStyles = `
@@ -369,17 +409,21 @@ if (isMobile) {
         desktopStyleSheet.type = "text/css";
         desktopStyleSheet.innerText = desktopStyles;
         document.head.appendChild(desktopStyleSheet);
+        showStep('Desktop stijlen geïnjecteerd');
 
         // Create and style the popup window
         const createPopup = () => {
+            showStep('Desktop popup wordt aangemaakt');
             const popup = document.createElement("div");
             popup.classList.add("popup");
             document.body.appendChild(popup);
+            showStep('Desktop popup toegevoegd aan pagina');
             return popup;
         };
 
         // Function to display results in the popup window
         const displayResultsDesktop = (results, popup, fimg) => {
+            showStep('Desktop resultaten worden weergegeven');
             const rect = fimg.getBoundingClientRect();
             popup.style.left = `${rect.right - 155}px`;
             popup.style.top = `${rect.top}px`;
@@ -407,6 +451,7 @@ if (isMobile) {
 
         // Add event listeners for all fimg elements
         const addHoverListeners = () => {
+            showStep('Hover listeners worden toegevoegd');
             const fimgElements = document.querySelectorAll('[id^="fimg"]');
 
             fimgElements.forEach(fimg => {
@@ -414,6 +459,7 @@ if (isMobile) {
                 processedFimgs.add(fimg);
 
                 fimg.addEventListener('mouseenter', () => {
+                    showStep('Hover op afbeelding gedetecteerd');
                     if (isPopupHovered) return;
                     clearTimeout(hoverTimeout);
                     const results = extractUrls(fimg);
@@ -423,6 +469,7 @@ if (isMobile) {
                 });
 
                 fimg.addEventListener('mouseleave', () => {
+                    showStep('Mouse leave op afbeelding gedetecteerd');
                     if (isPopupHovered) return;
                     hoverTimeout = setTimeout(() => {
                         popup.classList.remove('visible');
@@ -434,18 +481,22 @@ if (isMobile) {
             popup.addEventListener('mouseenter', () => {
                 isPopupHovered = true;
                 clearTimeout(hoverTimeout);
+                showStep('Cursor boven desktop popup');
             });
 
             popup.addEventListener('mouseleave', () => {
                 isPopupHovered = false;
                 popup.classList.remove('visible');
+                showStep('Cursor verlaat desktop popup');
             });
         };
 
         // Start adding event listeners after the page loads
         const desktopCheckInterval = setInterval(() => {
+            showStep('Desktop interval uitgevoerd');
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
                 addHoverListeners();
+                showStep('Desktop resultaten gedetecteerd');
             }
         }, 1000);
     }
