@@ -6,7 +6,10 @@ A script written in JavaScript to extract URLs from FaceCheck.id results for fre
 
 As of now there is one version of the script usable on desktop and mobile.
 
-1. **facecheck-url-extractor-desktop&mobileV2.user.js**: This updated version introduces a new, interactive hover-based popup instead of a static results box on desktop and an interactive results 'menu' inbedded within the webpage on mobile.
+
+1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
+   
+* -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
 
 ## Details on Version 2
 
