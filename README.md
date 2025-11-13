@@ -6,7 +6,7 @@ Disclosure: The vendor (FaceCheck.id) was notified via publicly available channe
 
 ## OWASP A01: Broken Access Control
 
-This PoC maps to OWASP Top 10 A01:2021 — Broken Access Control. Result source URLs are exposed to any client via image metadata returned by the server, without an authorization check. This is an access control failure, not a client-side bypass.
+This PoC maps to OWASP Top 10 A01:2021 | Broken Access Control. Result source URLs are exposed to any client via image metadata returned by the server, without an authorization check. This is an access control failure, not a client-side bypass.
 
 - Evidence: Source URLs present in XMP inside base64-encoded WebP images on the results page.
 - Impact: Unauthorized disclosure of origin links that may identify individuals.
