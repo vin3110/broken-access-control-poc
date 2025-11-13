@@ -1,13 +1,25 @@
-# broken-access-control on facecheck.id to extract result assets
+# Broken access control on FaceCheck.id — security PoC to extract result assets
 
-A script written in JavaScript to extract URLs from FaceCheck.id results for free. This script extracts base64-encoded img.webp data from FaceCheck search results. After the results page is detected the script displays the results on the webpage as clickable links. *(The way the results are displayed is different depending on the version you use.)
+This repository documents a cybersecurity proof of concept that demonstrates how result URLs can be extracted from FaceCheck.id search responses due to exposed metadata. The script parses base64‑encoded img.webp data on the results page and surfaces the discovered links as clickable items. *(Display details vary.)*
+
+Disclosure: The vendor (FaceCheck.id) was notified via publicly available channels multiple times; no response has been received to date.
+
+## OWASP A01: Broken Access Control
+
+This PoC maps to OWASP Top 10 A01:2021 — Broken Access Control. Result source URLs are exposed to any client via image metadata returned by the server, without an authorization check. This is an access control failure, not a client-side bypass.
+
+- Evidence: Source URLs present in XMP inside base64-encoded WebP images on the results page.
+- Impact: Unauthorized disclosure of origin links that may identify individuals.
+- Mitigations: Strip XMP/EXIF server-side, avoid embedding origin URLs in client-delivered assets, and enforce authorization on sensitive fields.
+
+Reference: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
 
 ## Available Scripts
 
 As of now there is one version of the script usable on desktop and mobile.
 
 
-1. **facecheck-url-extractor-desktop&mobileV2.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
+1. **facecheck-id-results-exposure-poc.user.js**: Optimized for desktop use, this updated version introduces a new, interactive hover-based popup instead of a static results box.
    
 * -> Sorting may change the order in which the links are displayed. I recommend trying both and finding your preference.
 
@@ -37,7 +49,7 @@ As of now there is one version of the script usable on desktop and mobile.
 1. Install Tampermonkey in your browser (available for Chrome, Firefox, and others).
 2. Click on the Tampermonkey icon in your browser and select "Create a new script".
 3. Copy the content from the desired script file:
-   - `facecheck-url-extractor-desktop&mobileV2.user.js`
+   - `facecheck-id-results-exposure-poc.user.js`
 4. Paste the copied content into the Tampermonkey editor.
 5. Save the script.
 
@@ -53,12 +65,12 @@ I recommend watching a setup tutorial if you're confused about any of this.
 2. **Add the Script**:
    - Browse to the GitHub in your browser.
    - Download the desired script file:
-       - `facecheck-url-extractor-desktop&mobileV2.user.js`
+       - `facecheck-id-results-exposure-poc.user.js`
    - Paste the script into the correct location. (Again, I recommend watching a setup tutorial if you're confused about any of this.)
 
 ## How to Use
 
-### V2 (Mobile):
+### (Mobile):
 1. Navigate to the results page on FaceCheck.id.
 2. Enable the script and use the FaceCheck.id search.
 3. Will show the results on top of the picture below it (see the example)
@@ -67,7 +79,7 @@ I recommend watching a setup tutorial if you're confused about any of this.
 
 
 
-### V2(Desktop):
+### (Desktop):
 1. Navigate to FaceCheck.id and run your search.
 2. Hover your cursor over individual results.
 4. A popup will display URLs along with their confidence ratings.
@@ -84,13 +96,11 @@ While the service offers free searches, detailed results, such as links to the s
 
 ## Why Does This Work?
 
-FaceCheck.id embeds search result images as a string of a base64-encoded webp file. These images often contain embedded metadata in the form of XMP (Extensible Metadata Platform) data, which is typically included in image files to store information such as copyright details, camera settings, or links related to the image.
+At a high level, this is a broken access control / data exposure issue. FaceCheck.id embeds search result images as base64‑encoded webp files. These images often contain embedded XMP (Extensible Metadata Platform) metadata.
 
-In the case of FaceCheck.id, the XMP metadata often contains URLs to the website it got its images from, like social media profiles or other web pages related to the search result. 
+In practice, the XMP frequently includes source URLs (e.g., social profiles or pages tied to the result). Because this metadata is not stripped before the images are embedded on the results page, the URLs remain accessible to any client that receives the page and can be decoded without crossing an authorization boundary.
 
-The critical point here is that FaceCheck.id does not strip or remove this XMP metadata before embedding the webp images on their results page. As a result, the metadata, including the URLs, remains intact within the image data, allowing it to be accessed and decoded without needing to pay for the results.
-
-I have tried finding their contact info to let them know about this, but they didn't leave their info on their website, or pretty much anywhere else. So I thought I'd share this for casual users to use (while it still works).
+Responsible disclosure attempts were made; as of this writing, no response has been received from the vendor.
 
 ## Disclaimers
 
