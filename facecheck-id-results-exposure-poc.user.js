@@ -2,7 +2,7 @@
 // @name         FaceCheck URL Extractor with Ratings (Mobile and Desktop)
 // @namespace    http://tampermonkey.net/
 // @version      3.0.0
-// @description  Extracts image URLs and ratings from FaceCheck results for both mobile and desktop with automatic overlay on mobile
+// @description  Historical PoC for a resolved FaceCheck.id result-metadata exposure
 // @author       vin31_ modified by Nthompson096, perplexity.ai and 0wn3dg0d
 // @match        https://facecheck.id/*
 // @grant        none
@@ -10,6 +10,10 @@
 
 (function() {
     'use strict';
+
+    // Historical note: the affected site behavior has been fixed. This script
+    // is retained to document the original client-side exposure and is not
+    // expected to work against the current FaceCheck.id implementation.
 
     // Detect mobile device
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -65,17 +69,23 @@
 
     // Extract URL from a single image element
     const extractSingleUrl = (fimg) => {
-        const bgImage = window.getComputedStyle(fimg).backgroundImage;
-        const base64Match = bgImage.match(/base64,(.*)"/);
-        const urlMatch = base64Match ? atob(base64Match[1]).match(/https?:\/\/[^\s"]+/) : null;
-        if (!urlMatch) return null;
+        try {
+            const bgImage = window.getComputedStyle(fimg).backgroundImage;
+            const base64Match = bgImage.match(/base64,(.*)"/);
+            const urlMatch = base64Match ? atob(base64Match[1]).match(/https?:\/\/[^\s"]+/) : null;
+            if (!urlMatch) return null;
 
-        const domain = new URL(urlMatch[0]).hostname.replace('www.', '');
-        const distSpan = fimg.parentElement.querySelector('.dist');
-        const confidence = distSpan ? parseInt(distSpan.textContent) : 0;
-        const { rating, color } = getRating(confidence);
+            const parsedUrl = new URL(urlMatch[0]);
+            const domain = parsedUrl.hostname.replace(/^www\./, '');
+            const distSpan = fimg.parentElement.querySelector('.dist');
+            const confidence = distSpan ? parseInt(distSpan.textContent, 10) : 0;
+            const { rating, color } = getRating(confidence);
 
-        return { url: urlMatch[0], domain, confidence, rating, color };
+            return { url: parsedUrl.href, domain, confidence, rating, color };
+        } catch {
+            // Ignore malformed image data and continue processing other results.
+            return null;
+        }
     };
 
 // MOBILE FUNCTIONALITY
@@ -264,13 +274,13 @@ if (isMobile) {
 
                 const content = results.map((result, index) => `
                 <div class="url-item">
-                    <a href="${result.url}" target="_blank">
+                    <a href="${result.url}" target="_blank" rel="noopener noreferrer">
                         ${index + 1}. ${result.domain}
                     </a>
                     <div class="confidence" style="color:${result.color};">
                         ${result.confidence}% - ${result.rating}
                     </div>
-                    <a href="${result.url}" target="_blank" style="font-size:12px;">
+                    <a href="${result.url}" target="_blank" rel="noopener noreferrer" style="font-size:12px;">
                         ${result.url}
                     </a>
                 </div>
@@ -298,7 +308,7 @@ if (isMobile) {
         };
 
         // Start processing mobile images
-        const mobileCheckInterval = setInterval(() => {
+        setInterval(() => {
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
                 processMobileImages();
                 // Continue checking for new images that might load dynamically
@@ -386,7 +396,7 @@ if (isMobile) {
 
             const resultsList = results.map(result => `
                 <li>
-                    <a href="${result.url}" target="_blank">
+                    <a href="${result.url}" target="_blank" rel="noopener noreferrer">
                         ${result.domain}
                     </a>
                     <span style="color:${result.color};">(${result.confidence}% - ${result.rating})</span>
@@ -400,10 +410,21 @@ if (isMobile) {
         // Create the popup window
         const popup = createPopup();
 
-        // Track which elements have listeners attached
-        const processedFimgs = new WeakSet();
         let hoverTimeout;
         let isPopupHovered = false;
+
+        popup.addEventListener('mouseenter', () => {
+            isPopupHovered = true;
+            clearTimeout(hoverTimeout);
+        });
+
+        popup.addEventListener('mouseleave', () => {
+            isPopupHovered = false;
+            popup.classList.remove('visible');
+        });
+
+        // Track which elements have listeners attached
+        const processedFimgs = new WeakSet();
 
         // Add event listeners for all fimg elements
         const addHoverListeners = () => {
@@ -430,20 +451,10 @@ if (isMobile) {
                 });
             });
 
-            // Event handler for the popup
-            popup.addEventListener('mouseenter', () => {
-                isPopupHovered = true;
-                clearTimeout(hoverTimeout);
-            });
-
-            popup.addEventListener('mouseleave', () => {
-                isPopupHovered = false;
-                popup.classList.remove('visible');
-            });
         };
 
         // Start adding event listeners after the page loads
-        const desktopCheckInterval = setInterval(() => {
+        setInterval(() => {
             if (isResultsPage() && document.querySelector('[id^="fimg"]')) {
                 addHoverListeners();
             }
